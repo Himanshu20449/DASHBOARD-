@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <h1>Task Tracker Dashboard</h1>
+        </header>
+        <div class="dashboard-content">
+            <button class="dashboard-btn add-task-btn" onclick="openModal('addTaskModal')">
+                <div class="btn-icon">➕</div>
+                <div class="btn-label">Add Task</div>
+            </button>
+            <button class="dashboard-btn pending-btn" onclick="openModal('pendingWorkModal')">
+                <div class="btn-icon">📋</div>
+                <div class="btn-label">Pending Work</div>
+            </button>
+            <button class="dashboard-btn under-process-btn" onclick="openModal('underProcessModal')">
+                <div class="btn-icon">⚙️</div>
+                <div class="btn-label">Under Process</div>
+            </button>
+            <button class="dashboard-btn printing-btn" onclick="openModal('printingModal')">
+                <div class="btn-icon">🖨️</div>
+                <div class="btn-label">Printing</div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+<!-- Add Task Modal -->
+<div id="addTaskModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('addTaskModal')">&times;</span>
+        <h2>Add Task</h2>
+        <form id="taskForm">
+            <div class="form-group">
+                <label for="dateReceived">Date Received:</label>
+                <input type="date" id="dateReceived" name="dateReceived" required>
+            </div>
+            <div class="form-group">
+                <label for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" name="customerName" placeholder="Enter customer name" required>
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="Enter mobile number" required>
+            </div>
+            <div class="form-group">
+                <label for="workType">Work Type:</label>
+                <select id="workType" name="workType" onchange="showSizeInput()" required>
+                    <option value="" disabled selected>Select work type</option>
+                    <option value="Flex">Flex</option>
+                    <option value="Frame">Frame</option>
+                    <option value="Card">Card</option>
+                </select>
+            </div>
+            <div class="form-group size-box hidden" id="sizeBox">
+                <label for="size">Size:</label>
+                <input type="text" id="size" name="size" placeholder="Enter size (e.g., 5x7)">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" placeholder="Enter details about the task"></textarea>
+            </div>
+            <!-- Upload Image Button -->
+            <div class="form-group upload-box">
+                <label for="imageUpload">Upload Image:</label>
+                <input type="file" id="imageUpload" name="imageUpload" accept="image/*">
+                <button type="button" class="btn upload-btn" onclick="uploadImage()">Upload</button>
+            </div>
+            <div class="form-group">
+                <label for="designer">Designer:</label>
+                <input type="text" id="designer" name="designer" placeholder="Enter designer's name">
+            </div>
+            <div class="form-group">
+                <label for="deliveryDate">Delivery Date:</label>
+                <input type="date" id="deliveryDate" name="deliveryDate" required>
+            </div>
+            <button type="submit" class="btn">Add Task</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Pending Work Modal -->
+    <div id="pendingWorkModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('pendingWorkModal')">&times;</span>
+            <h2>Pending Work</h2>
+            <table id="pendingWorkTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date Received</th>
+                        <th>Customer Name</th>
+                        <th>Mobile Number</th>
+                        <th>Work Type</th>
+                        <th>Size</th>
+                        <th>Description</th>
+                        <th>Designer</th>
+                        <th>Delivery Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Other Modals for Under Process and Printing are identical -->
+    <script src="script.js"></script>
+</body>
+</html>
+<!-- Printing Task Modal -->
+<div id="printingTaskModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('printingTaskModal')">&times;</span>
+        <h2>Printing Task</h2>
+        <div class="task-details">
+            <p><strong>Date Received:</strong> <span id="printingDateReceived"></span></p>
+            <p><strong>Customer Name:</strong> <span id="printingCustomerName"></span></p>
+            <p><strong>Work Type:</strong> <span id="printingWorkType"></span></p>
+            <p><strong>Size:</strong> <span id="printingSize"></span></p>
+            <p><strong>Description:</strong> <span id="printingDescription"></span></p>
+            <p><strong>Designer:</strong> <span id="printingDesigner"></span></p>
+            <p><strong>Delivery Date:</strong> <span id="printingDeliveryDate"></span></p>
+        </div>
+        <button class="btn" onclick="confirmComplete()">Complete</button>
+        <button class="btn" onclick="closeModal('printingTaskModal')">Close</button>
+    </div>
+</div>
+<!-- Add Task Modal -->
+<div id="addTaskModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('addTaskModal')">&times;</span>
+        <h2>Add Task</h2>
+        <form id="taskForm">
+            <div class="form-group">
+                <label for="dateReceived">Date Received:</label>
+                <input type="date" id="dateReceived" name="dateReceived" required>
+            </div>
+            <div class="form-group">
+                <label for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" name="customerName" placeholder="Enter customer name" required>
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="Enter mobile number" required>
+            </div>
+            <div class="form-group">
+                <label for="workType">Work Type:</label>
+                <select id="workType" name="workType" onchange="handleWorkTypeChange()" required>
+                    <option value="" disabled selected>Select work type</option>
+                    <option value="Flex">Flex</option>
+                    <option value="Frame">Frame</option>
+                    <option value="Card">Card</option>
+                </select>
+            </div>
+            <div class="form-group flex-options hidden" id="flexOptions">
+                <p>Select Flex Type:</p>
+                <button type="button" class="btn" onclick="selectFlexType('Normal')">Normal</button>
+                <button type="button" class="btn" onclick="selectFlexType('STAR')">STAR</button>
+                <button type="button" class="btn" onclick="selectFlexType('Black Back')">Black Back</button>
+                <button type="button" class="btn" onclick="selectFlexType('Light Board')">Light Board</button>
+                <input type="hidden" id="selectedFlexType" name="selectedFlexType">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" placeholder="Enter details about the task"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="designer">Designer:</label>
+                <input type="text" id="designer" name="designer" placeholder="Enter designer's name">
+            </div>
+            <div class="form-group">
+                <label for="deliveryDate">Delivery Date:</label>
+                <input type="date" id="deliveryDate" name="deliveryDate" required>
+            </div>
+            <button type="submit" class="btn">Add Task</button>
+        </form>
+    </div>
+</div>
+<!-- Under Process Modal -->
+<div id="underProcessModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('underProcessModal')">&times;</span>
+        <h2>Under Process</h2>
+        <div id="underProcessTasks">
+            <!-- Example task -->
+            <div class="task-item">
+                <p><strong>Customer Name:</strong> John Doe</p>
+                <p><strong>Work Type:</strong> Frame</p>
+                <p><strong>Description:</strong> Wedding Frame Design</p>
+                <button class="btn delete-btn" onclick="promptPassword('John Doe')">Delete</button>
+            </div>
+        </div>
+        <button class="btn" onclick="closeModal('underProcessModal')">Close</button>
+    </div>
+</div>
+
+<!-- Password Prompt Modal -->
+<div id="passwordPromptModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('passwordPromptModal')">&times;</span>
+        <h2>Enter Password</h2>
+        <p id="deleteTaskName"></p>
+        <input type="password" id="deletePassword" placeholder="Enter Password">
+        <button class="btn" onclick="verifyPassword()">Submit</button>
+        <button class="btn" onclick="closeModal('passwordPromptModal')">Cancel</button>
+    </div>
+</div>
+<!-- Printing Section -->
+<div id="printingModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('printingModal')">&times;</span>
+        <h2>Printing</h2>
+        <div id="printingTasks">
+            <!-- Example task -->
+            <div class="task-item">
+                <p><strong>Customer Name:</strong> Jane Doe</p>
+                <p><strong>Work Type:</strong> Flex</p>
+                <p><strong>Description:</strong> Banner Design</p>
+                <button class="btn complete-btn" onclick="completePrintingTask('Jane Doe')">Complete</button>
+            </div>
+        </div>
+        <button class="btn" onclick="closeModal('printingModal')">Close</button>
+    </div>
+</div>
+
+<!-- Complete Work Section -->
+<div id="completeWorkModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('completeWorkModal')">&times;</span>
+        <h2>Complete Work</h2>
+        <div id="completeWorkTasks">
+            <!-- Dynamically added tasks will appear here -->
+        </div>
+        <button class="btn" onclick="closeModal('completeWorkModal')">Close</button>
+    </div>
+</div>
